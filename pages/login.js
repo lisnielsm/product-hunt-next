@@ -5,13 +5,12 @@ import Layout from '../components/layout/layout';
 import { Formulario, Campo, InputSubmit, Error } from '../components/ui/Formulario';
 
 import useValidacion from "../hooks/useValidacion";
-import validarCrearCuenta from '../validacion/validarCrearCuenta';
+import validarIniciarSesion from '../validacion/validarIniciarSesion';
 
+// import { login } from '../firebase';
 import firebase from '../firebase';
-import { registrar } from '../firebase';
 
 const STATE_INICIAL = {
-    nombre: "",
     email: "",
     password: ""
 }
@@ -19,19 +18,18 @@ const STATE_INICIAL = {
 export default function Login() {
     const [error, guardarError] = useState(false);
 
-    const { valores, errores, handleChange, handleSubmit, handleBlur } = useValidacion(STATE_INICIAL, validarCrearCuenta, crearCuenta);
-    const { nombre, email, password } = valores;
+    const { valores, errores, handleChange, handleSubmit, handleBlur } = useValidacion(STATE_INICIAL, validarIniciarSesion, iniciarSesion);
+    const { email, password } = valores;
 
-    async function crearCuenta() {
+    async function iniciarSesion() {
         try {
-            await registrar(nombre, email, password);
+            const usuario = await firebase.login(email, password);
             Router.push("/");
         } catch (error) {
-            console.error("Hubo un error al crear el usuario ", error.message);
+            console.error("Hubo un error al autenticar el usuario ", error.message);
             guardarError(error.message);
         }
     }
-
 
     return (
         <div>

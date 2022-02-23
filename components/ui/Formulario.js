@@ -47,6 +47,5 @@ export const Error = styled.p`
     font-size: 1.4rem;
     color: #FFF;
     text-align: center;
-    text-transform: uppercase;
     margin: 2rem 0;
 `;

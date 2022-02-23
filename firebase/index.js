@@ -1,5 +1,5 @@
-import firebase, {registrar} from "./firebase";
+import firebase from "./firebase";
 import FirebaseContext from "./context";
 
-export { FirebaseContext, registrar };
+export { FirebaseContext };
 export default firebase;

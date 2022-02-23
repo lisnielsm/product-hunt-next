@@ -7,8 +7,8 @@ import { Formulario, Campo, InputSubmit, Error } from '../components/ui/Formular
 import useValidacion from "../hooks/useValidacion";
 import validarCrearCuenta from '../validacion/validarCrearCuenta';
 
+// import { registrar } from '../firebase';
 import firebase from '../firebase';
-import { registrar } from '../firebase';
 
 const STATE_INICIAL = {
     nombre: "",
@@ -25,7 +25,7 @@ export default function CrearCuenta() {
 
     async function crearCuenta() {
         try {
-            await registrar(nombre, email, password);
+            await firebase.registrar(nombre, email, password);
             Router.push("/");
         } catch (error) {
             console.error("Hubo un error al crear el usuario ", error.message);

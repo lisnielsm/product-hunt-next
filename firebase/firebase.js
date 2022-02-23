@@ -1,21 +1,34 @@
 import { initializeApp } from 'firebase/app';
 import firebaseConfig from "./config";
-import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
+import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile, signOut } from 'firebase/auth';
 
 const app = initializeApp(firebaseConfig);
 
-// Registra un usuario
-async function registrar(nombre, email, password) {
-    const authentication = getAuth();
-    const nuevoUsuario = await createUserWithEmailAndPassword(authentication, email, password);
+class Firebase {
+    // Registra un usuario
+    async registrar(nombre, email, password) {
+        const authentication = getAuth();
+        const nuevoUsuario = await createUserWithEmailAndPassword(authentication, email, password);
 
-    console.log(nuevoUsuario);
+        return await updateProfile(nuevoUsuario.user, {
+            displayName: nombre
+        });
+    }
 
-    return await updateProfile(nuevoUsuario.user, {
-        displayName: nombre
-    });
+    // Inicia sesion de un usuario
+    async login(email, password) {
+        const authentication = getAuth();
+        return await signInWithEmailAndPassword(authentication, email, password);
+    }
+
+    // CIerra la sesion del usuario
+    async cerrarSesion() {
+        const authentication = getAuth();
+        return await signOut(authentication);
+    }
 }
 
-export {registrar};
-export default app;
+const firebase = new Firebase();
+
+export default firebase;
 
