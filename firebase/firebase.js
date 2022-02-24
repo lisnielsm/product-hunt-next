@@ -1,10 +1,17 @@
-import { initializeApp } from 'firebase/app';
 import firebaseConfig from "./config";
+import { initializeApp } from 'firebase/app';
+import { getFirestore } from "firebase/firestore";
+import { getStorage } from "firebase/storage";
 import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, updateProfile, signOut } from 'firebase/auth';
 
 const app = initializeApp(firebaseConfig);
 
 class Firebase {
+    constructor() {
+        this.db = getFirestore(app);
+        this.storage = getStorage();
+    }
+
     // Registra un usuario
     async registrar(nombre, email, password) {
         const authentication = getAuth();
